@@ -1,10 +1,20 @@
 package model;
 
-import java.util.Objects;
+import javax.persistence.*;
+import java.util.List;
 
+@Entity
+@Table(name = "city")
 public class City {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "city_id")
     private int cityId;
+    @Column(name = "city_name")
     private String cityName;
+
+    @OneToMany(mappedBy = "cityId", cascade = CascadeType.ALL)
+    private List<Employee> employeeList;
 
     public City() {
     }
@@ -34,24 +44,12 @@ public class City {
         this.cityName = cityName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        City city = (City) o;
-        return cityId == city.cityId && Objects.equals(cityName, city.cityName);
+    public List<Employee> getEmployeeList() {
+        return employeeList;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(cityId, cityName);
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
 
-    @Override
-    public String toString() {
-        return "City{" +
-                "id =" + cityId +
-                ", name='" + cityName + '\'' +
-                '}';
-    }
 }
