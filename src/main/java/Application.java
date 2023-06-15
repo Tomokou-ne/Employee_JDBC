@@ -1,10 +1,11 @@
 import dao.EmployeeDAO;
 import dao.EmployeeDAOImpl;
-import model.City;
 import model.Employee;
 
-import java.sql.*;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class Application {
@@ -12,6 +13,23 @@ public class Application {
         final String user = "postgres";
         final String password = "1234";
         final String url = "jdbc:postgresql://localhost:5432/skypro";
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+
+        String queryEmployee = "SELECT first_name FROM employee";
+        TypedQuery<Employee> query = entityManager.createQuery(queryEmployee, Employee.class);
+
+        List<Employee> employees = query.getResultList();
+
+        for (Employee employee : employees) {
+            System.out.println(employee);
+        }
+
+        entityManager.close();
+        entityManagerFactory.close();
 
         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 

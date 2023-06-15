@@ -21,7 +21,7 @@ public class Employee {
     @Column(name = "city")
     private int city;
 
-    public Employee() {
+    public Employee(String maxim, String sorokin, String male, int i) {
     }
 
     public Employee(int id, String firstName, String lastName, String gender, int age, int city) {
