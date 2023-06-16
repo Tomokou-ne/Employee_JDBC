@@ -36,7 +36,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                 ("SELECT * FROM employee INNER JOIN city ON employee.city_id = city.city_id AND id=(?)")){
             statement.setInt(1,id);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 employee.setId(resultSet.getInt("employee_id"));
                 employee.setFirstName(resultSet.getString("first_name"));
                 employee.setLastName(resultSet.getString("last_name"));
@@ -47,7 +47,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             }
         } catch (SQLException ignored) {
         }
-        return null;
+        return employee;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT * FROM employee LEFT JOIN city ON employee.city_id=city.city_id")) {
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
