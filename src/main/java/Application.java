@@ -19,7 +19,7 @@ public class Application {
 
         entityManager.getTransaction().begin();
 
-        String queryEmployee = "SELECT first_name FROM employee";
+        String queryEmployee = "SELECT e FROM Employee e";
         TypedQuery<Employee> query = entityManager.createQuery(queryEmployee, Employee.class);
 
         List<Employee> employees = query.getResultList();
