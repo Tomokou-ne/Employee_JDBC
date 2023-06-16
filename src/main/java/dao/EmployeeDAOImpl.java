@@ -46,6 +46,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                         resultSet.getString("city_name")));
             }
         } catch (SQLException ignored) {
+            return null;
         }
         return employee;
     }

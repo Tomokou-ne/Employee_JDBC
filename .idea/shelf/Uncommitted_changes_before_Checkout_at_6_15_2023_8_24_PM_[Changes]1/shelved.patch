@@ -1,0 +1,129 @@
+Index: src/main/java/Application.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Application.java b/src/main/java/Application.java
+--- a/src/main/java/Application.java	
++++ b/src/main/java/Application.java	
+@@ -5,6 +5,9 @@
+ import model.City;
+ import model.Employee;
+ 
++import javax.persistence.EntityManager;
++import javax.persistence.EntityManagerFactory;
++import javax.persistence.Persistence;
+ import java.util.List;
+ 
+ public class Application {
+@@ -13,6 +16,14 @@
+         final String password = "1234";
+         final String url = "jdbc:postgresql://localhost:5432/skypro";
+ 
++        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
++        EntityManager entityManager = entityManagerFactory.createEntityManager();
++
++
++
++        entityManager.close();
++        entityManagerFactory.close();
++
+         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+         CityDAO cityDAO = new CityDAOImpl();
+ 
+Index: src/main/resources/META-INF/persistence.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/META-INF/persistence.xml b/src/main/resources/META-INF/persistence.xml
+new file mode 100644
+--- /dev/null	
++++ b/src/main/resources/META-INF/persistence.xml	
+@@ -0,0 +1,21 @@
++<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
++             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
++             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
++             version="2.1">
++    <persistence-unit name="myPersistenceUnit">
++        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
++        <properties>
++            <property name="javax.persistence.jdbc.url"
++                      value="jdbc:postgresql://localhost:5432/skypro"/>
++            <property name="javax.persistence.jdbc.user" value="postgres"/>
++            <property name="javax.persistence.jdbc.password" value="postgres"/>
++            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
++
++            <property name="hibernate.enable_lazy_load_no_trans" value="true"/>
++            <property name="hibernate.show_sql" value="true"/>
++            <property name="hibernate.format_sql" value="true"/>
++            <property name="hibernate.hbm2ddl.auto" value="update"/>
++        </properties>
++    </persistence-unit>
++</persistence>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -4,19 +4,11 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="ea2a4013-4f3e-43d8-976d-361ea31c8f64" name="Changes" comment="Initial commit">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/CityDAO.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/CityDAOImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_23_2023_4_24_PM_[Changes]/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_23_2023_4_24_PM__Changes_.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_23_2023_4_25_PM_[Changes]/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_23_2023_4_25_PM__Changes_.xml" beforeDir="false" />
++    <list default="true" id="ea2a4013-4f3e-43d8-976d-361ea31c8f64" name="Changes" comment="Done">
++      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/EmployeeDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/EmployeeDAOImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/hibernate/HibernateSessionFactoryUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hibernate/HibernateSessionFactoryUtil.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Employee.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/dao/CityDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/CityDAOImpl.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -34,7 +26,7 @@
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="hiber" />
++        <entry key="$PROJECT_DIR$" value="imadone" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -69,7 +61,6 @@
+       <option name="presentableId" value="Default" />
+       <updated>1684524994034</updated>
+       <workItem from="1684524995421" duration="425000" />
+-      <workItem from="1685534577617" duration="5689000" />
+     </task>
+     <task id="LOCAL-00001" summary="Initial commit">
+       <created>1684525036497</created>
+@@ -85,14 +76,7 @@
+       <option name="project" value="LOCAL" />
+       <updated>1684525042923</updated>
+     </task>
+-    <task id="LOCAL-00003" summary="Initial commit">
+-      <created>1684862782099</created>
+-      <option name="number" value="00003" />
+-      <option name="presentableId" value="LOCAL-00003" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1684862782099</updated>
+-    </task>
+-    <option name="localTasksCounter" value="4" />
++    <option name="localTasksCounter" value="3" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
